@@ -21,6 +21,6 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: dist/main.exe
         asset_name: mything
-        tag: ${{ github.ref }}
+        tag: release
         overwrite: true
         body: "This is my release text"
