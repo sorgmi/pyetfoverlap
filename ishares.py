@@ -41,6 +41,11 @@ def get_file(url):
 
     return filename
 
+def get_df(url):
+    file = get_file(url)
+    df = read_csv(file)
+    return df
+
 def getFromURL(url):
     file = get_file(url)
     df = read_csv(file)
@@ -53,9 +58,9 @@ def getFromURL(url):
 
 
 if __name__ == '__main__':
-    d = read_csv('ICLN_holdings.csv')
-    print(d.head())
-    print(d.shape)
+    #d = read_csv('ICLN_holdings.csv')
+    #print(d.head())
+    #print(d.shape)
 
     d = getFromURL('https://www.ishares.com/us/products/239738/')
     print(d.head())

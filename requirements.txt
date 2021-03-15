@@ -2,3 +2,5 @@ pandas
 wget
 beautifulsoup4
 requests
+prettytable
+typer

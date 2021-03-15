@@ -1,9 +1,13 @@
 import collections
+from typing import List
 
 import pandas as pd
 from prettytable import PrettyTable
 
 import ishares
+
+import typer
+app = typer.Typer()
 
 def merge(dataframes):
     merged = {}
@@ -67,7 +71,7 @@ def printTable(merged, dataframes):
         top = df.nlargest(10, 'weight')
         top = top[["name", "weight"]]
         total = sum(top["weight"].values)
-        textstr = f"{total} %"
+        textstr = f"{round(total, 1)} %"
         row.append(textstr)
     table.add_row(row)
 
@@ -84,11 +88,25 @@ def printTable(merged, dataframes):
     table.add_row(row)
 
     print(table)
+    with open('overlap_result.txt', 'w') as w:
+        w.write(str(table))
+
+
+def main(urls: List[str]):
+    dataframes = []
+    for url in urls:
+        df = ishares.get_df(url)
+        dataframes.append(df)
+    merged = merge(dataframes)
+    printTable(merged, dataframes)
+
 
 
 if __name__ == '__main__':
-    d1 = ishares.read_csv('ICLN_holdings.csv')
-    d2 = ishares.read_csv('IVV_holdings.csv')
-    merged = merge([d1, d2])
-    printTable(merged, [d1, d2])
+    typer.run(main)
+    print("eza du")
+    #d1 = ishares.read_csv('tests/ICLN_holdings.csv')
+    #d2 = ishares.read_csv('tests/IVV_holdings.csv')
+    #merged = merge([d1, d2])
+    #printTable(merged, [d1, d2])
 
