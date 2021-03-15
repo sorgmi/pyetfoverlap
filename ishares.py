@@ -1,3 +1,5 @@
+import csv
+import os
 import re
 
 import pandas as pd
@@ -17,7 +19,11 @@ def read_csv(path):
     df = df[['ISIN', 'Name', 'Weight (%)', 'Location']]
     df.columns = ['ISIN', 'name', 'weight', 'location']
     df.attrs['path'] = path
-    # TODO add name of etf
+
+    # add ETF Name
+    with open(path, "r", encoding="utf-8-sig", errors="ignore") as f:
+        name = f.readline()
+        df.attrs['etfname'] = name.strip()
 
     return df
 
@@ -32,14 +38,20 @@ def get_file(url):
     x = re.findall(search, suburl)
     filename = x[0].split("=")[1] + ".csv"
 
+    tmp_dir = "etf_data"
+    if not os.path.exists(tmp_dir):
+        os.makedirs(tmp_dir)
+
+    file = os.path.join(tmp_dir, filename)
+
     # Download file
     #filepath = wget.download(url + suburl, out=filename)
     with urllib.request.urlopen(url + suburl) as f:
         html = f.read().decode('utf-8')
-        with open(filename, 'w', encoding="utf-8") as out:
+        with open(file, 'w', encoding="utf-8") as out:
             out.write(html)
 
-    return filename
+    return file
 
 def get_df(url):
     file = get_file(url)
@@ -62,6 +74,6 @@ if __name__ == '__main__':
     #print(d.head())
     #print(d.shape)
 
-    d = getFromURL('https://www.ishares.com/us/products/239738/')
+    d = getFromURL('https://www.ishares.com/us/products/239696/')
     print(d.head())
     print(d.shape)

@@ -48,7 +48,7 @@ def format_table_string(alist, delimiter=" - "):
 def printTable(merged, dataframes):
     all_dataframes = [merged, *dataframes]
     table = PrettyTable()
-    table.field_names = ["", "Total"] + [df.attrs['path'] for df in dataframes]
+    table.field_names = ["", "Total"] + [df.attrs['etfname'] for df in dataframes]
     table.hrules = True
 
     # Total Positions
@@ -88,7 +88,7 @@ def printTable(merged, dataframes):
     table.add_row(row)
 
     print(table)
-    with open('overlap_result.txt', 'w') as w:
+    with open('overlap_result.txt', 'w', encoding="utf-8", errors="ignore") as w:
         w.write(str(table))
 
 
@@ -104,7 +104,6 @@ def main(urls: List[str]):
 
 if __name__ == '__main__':
     typer.run(main)
-    print("eza du")
     #d1 = ishares.read_csv('tests/ICLN_holdings.csv')
     #d2 = ishares.read_csv('tests/IVV_holdings.csv')
     #merged = merge([d1, d2])
