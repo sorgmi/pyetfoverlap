@@ -12,29 +12,33 @@ from bs4 import BeautifulSoup
 
 
 def read_csv(path):
-    df = pd.read_csv(path, skiprows=9, usecols=['ISIN', 'Name', 'Weight (%)', 'Location'])
+    df = pd.read_csv(
+        path, skiprows=9, usecols=["ISIN", "Name", "Weight (%)", "Location"]
+    )
     df["Weight (%)"] = pd.to_numeric(df["Weight (%)"])
     df = df.loc[df["Weight (%)"] > 0]
 
-    df = df[['ISIN', 'Name', 'Weight (%)', 'Location']]
-    df.columns = ['ISIN', 'name', 'weight', 'location']
-    df.attrs['path'] = path
+    df = df[["ISIN", "Name", "Weight (%)", "Location"]]
+    df.columns = ["ISIN", "name", "weight", "location"]
+    df.attrs["path"] = path
 
     # add ETF Name
     with open(path, "r", encoding="utf-8-sig", errors="ignore") as f:
         name = f.readline()
-        df.attrs['etfname'] = name.strip()
+        df.attrs["etfname"] = name.strip()
 
     return df
 
 
 def get_file(url):
     req = requests.get(url)
-    soup = BeautifulSoup(req.content, 'html.parser')
-    suburl = soup.select('#holdings > div.holdings.fund-component-data-export > a.icon-xls-export')[0].get('href')
+    soup = BeautifulSoup(req.content, "html.parser")
+    suburl = soup.select(
+        "#holdings > div.holdings.fund-component-data-export > a.icon-xls-export"
+    )[0].get("href")
 
     # set filename
-    search = 'fileName=[a-zA-Z]*'
+    search = "fileName=[a-zA-Z]*"
     x = re.findall(search, suburl)
     filename = x[0].split("=")[1] + ".csv"
 
@@ -45,18 +49,20 @@ def get_file(url):
     file = os.path.join(tmp_dir, filename)
 
     # Download file
-    #filepath = wget.download(url + suburl, out=filename)
+    # filepath = wget.download(url + suburl, out=filename)
     with urllib.request.urlopen(url + suburl) as f:
-        html = f.read().decode('utf-8')
-        with open(file, 'w', encoding="utf-8") as out:
+        html = f.read().decode("utf-8")
+        with open(file, "w", encoding="utf-8") as out:
             out.write(html)
 
     return file
+
 
 def get_df(url):
     file = get_file(url)
     df = read_csv(file)
     return df
+
 
 def getFromURL(url):
     file = get_file(url)
@@ -64,16 +70,11 @@ def getFromURL(url):
     return df
 
 
+if __name__ == "__main__":
+    # d = read_csv('ICLN_holdings.csv')
+    # print(d.head())
+    # print(d.shape)
 
-
-
-
-
-if __name__ == '__main__':
-    #d = read_csv('ICLN_holdings.csv')
-    #print(d.head())
-    #print(d.shape)
-
-    d = getFromURL('https://www.ishares.com/us/products/239696/')
+    d = getFromURL("https://www.ishares.com/us/products/239696/")
     print(d.head())
     print(d.shape)

@@ -60,3 +60,13 @@ In the following Example we can see that the two etfs overlap significantly. The
 |                          |                                     |                                     |                           |
 +--------------------------+-------------------------------------+-------------------------------------+---------------------------+
 ```
+
+### Installation
+Option 1: Download pre-build binaries here: [https://github.com/sorgmi/pyetfoverlap/releases/latest](https://github.com/sorgmi/pyetfoverlap/releases/latest)
+
+Option 2: Pip
+```text
+git clone https://github.com/sorgmi/pyetfoverlap
+pip install -r requirements.txt
+python main.py https://www.ishares.com/us/products/239726/ [...]
+```

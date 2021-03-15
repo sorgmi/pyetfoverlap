@@ -4,16 +4,16 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="example-pkg-YOUR-USERNAME-HERE", # Replace with your own username
-    version="0.0.1",
-    author="Example Author",
+    name="pyetfoverlap",
+    version="0.1",
+    author="sorgmi",
     author_email="author@example.com",
-    description="A small example package",
+    description="Calculate ETF overlap",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/sorgmi/pyetfoverlap",
     project_urls={
-        "Bug Tracker": "https://github.com/pypa/sampleproject/issues",
+        "Bug Tracker": "https://github.com/sorgmi/pyetfoverlap/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
