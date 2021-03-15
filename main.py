@@ -55,6 +55,12 @@ def printTable(merged, dataframes):
     row = ['Positions'] + [df.shape[0] for df in all_dataframes]
     table.add_row(row)
 
+    # Overlapping Positions
+    sets = [set(df["ISIN"].unique()) for df in dataframes]
+    overlap = sets[0].intersection(*sets[1:])
+    row = ['Overlapping Positions\n(contained in every ETF)'] + [str(len(overlap))] + [""]*len(dataframes)
+    table.add_row(row)
+
     # Top Ten Positions
     row = ['Top Ten']
     for df in all_dataframes:
@@ -108,4 +114,3 @@ if __name__ == '__main__':
     #d2 = ishares.read_csv('tests/IVV_holdings.csv')
     #merged = merge([d1, d2])
     #printTable(merged, [d1, d2])
-
