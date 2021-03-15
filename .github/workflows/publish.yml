@@ -21,7 +21,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: dist/main.exe
-        asset_name: WindowsBuild
+        asset_name: ETFOverlap.exe
         tag: ${{ github.ref }}
         overwrite: true
         body: ""
