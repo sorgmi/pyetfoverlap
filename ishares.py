@@ -30,19 +30,21 @@ def read_csv(path):
     return df
 
 
-def get_file(url):
+def find_download(url, selector="#holdings > div.holdings.fund-component-data-export > a.icon-xls-export"):
     req = requests.get(url)
     soup = BeautifulSoup(req.content, "html.parser")
-    suburl = soup.select(
-        "#holdings > div.holdings.fund-component-data-export > a.icon-xls-export"
-    )[0].get("href")
+    suburl = soup.select(selector)[0].get("href")
 
     # set filename
     search = "fileName=[a-zA-Z]*"
     x = re.findall(search, suburl)
     filename = x[0].split("=")[1] + ".csv"
+    return suburl, filename
 
-    tmp_dir = "etf_data"
+
+def get_file(url, tmp_dir="etf_data"):
+    suburl, filename = find_download(url)
+
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
 
@@ -75,6 +77,10 @@ if __name__ == "__main__":
     # print(d.head())
     # print(d.shape)
 
-    d = getFromURL("https://www.ishares.com/us/products/239696/")
+    url = "https://www.ishares.com/us/products/239726/"  # S&P 500
+
+    d = getFromURL(url)
     print(d.head())
     print(d.shape)
+
+    print(d["ISIN"].values[0])

@@ -8,9 +8,6 @@ import ishares
 
 import typer
 
-app = typer.Typer()
-
-
 def merge(dataframes):
     merged = {}
     for df in dataframes:

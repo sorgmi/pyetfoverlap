@@ -2,14 +2,14 @@
 
 This tool can be used to check if the money is well distributed (invested broadly and diversified) when investing in multiple ETF's.
 
-Currently only iShares links are supported.
+**Currently only iShares links are supported**.
 
 
 ### Example
 
 In the following Example we can see that the two etfs overlap significantly. There are 466 positions contained in both etfs and over 80% of the money is invested in the US which may not have been your goal.
 ```text
-> python main.py https://www.ishares.com/us/products/239726/ https://www.ishares.com/us/products/239696/
+> python main.py https://www.ishares.com/us/products/239726 https://www.ishares.com/us/products/239696
 
 +--------------------------+-------------------------------------+-------------------------------------+---------------------------+
 |                          |                Total                |       iShares Core S&P 500 ETF      |   iShares MSCI World ETF  |
